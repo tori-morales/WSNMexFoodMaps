@@ -25,10 +25,10 @@
     <span id="map"></span>
     <script>
         let mq = window.matchMedia("(max-width:800px)");
-        mapboxgl.accessToken = "pk.eyJ1IjoidG9yaW1vcmFsZXMiLCJhIjoiY2xzbDY4eHZnMDVxYzJrbDl1MGNrNnJxdCJ9.ohnhTjUO_kMU3hnQx8C5Nw";
+        mapboxgl.accessToken = "pk.eyJ1IjoidG9yaW1vcmFsZXMiLCJhIjoiY2xnZmdqMXA5MDFlbzNmcTZ0MHI1NDJuMSJ9.E81absNdHImEsm3kaPLYjg";
         const map = new mapboxgl.Map(
             {
-                container: "map",//40.743,-73.880
+                container: "map",
                 style: "mapbox://styles/torimorales/clsl54ap403uo01o838cb508t",
                 center: [-73.8763, 40.7475],
                 zoom: mq.matches ? 11.8 : 12.5,
@@ -43,21 +43,21 @@
 
         const linkmap = {
             "Ollin": "https://maps.app.goo.gl/fmyhm4YjvZiqJAf19",
-            "El Aguila": "https://maps.app.goo.gl/TFgjCTNtw6vHnJXr9",
-            "Maz Mezcal": "https://maps.app.goo.gl/fGVtxB4188GYdjC49",
+            "El Aguila": "http://elaguilanewyorkrestaurant.com/web_eng/",
+            "Maz Mezcal": "https://www.mazmezcal.com/",
             "El Mariachi": "https://maps.app.goo.gl/gJdPBhBLm69YgYp38",
-            "Tlayuda Oaxaquena SR San Pablo": "https://maps.app.goo.gl/gCKAHCNwcyom27JF8",
+            "Tlayuda Oaxaquena SR San Pablo": "http://www.ordertlayudaoaxaquenasrsanpablo.com/",
             "La Espiga": "https://maps.app.goo.gl/NpJWNLgtrkoGmmxLA",
-            "Tacos El Bronco": "https://maps.app.goo.gl/djQa69Gdw9wGgfnH9",
+            "Tacos El Bronco": "https://tacos-el-bronco.weeblyte.com/",
             "Tacos Matamoros": "https://maps.app.goo.gl/TmiqxgRFtLnCz8RQ6",
-            "Chavela’s": "https://maps.app.goo.gl/3fDfuYrCQ6cja72FA",
-            "Taqueria Milear": "https://maps.app.goo.gl/Did4Qatjc5N3oc2X8",
+            "Chavela’s": "https://chavelasnyc.com/",
+            "Taqueria Milear": "https://www.taqueriamilear.com/",
         }
 
         //MAPBOX USES LONGITUDE, LATITUDE !!!!!!        
         map.on('load', () => {
             const items = map.querySourceFeatures('composite', {
-                'sourceLayer': "qnlatlong-5ln45k",
+                'sourceLayer': "qnlatlong-36svdq",
             });
 
             for (const feat of items) {
