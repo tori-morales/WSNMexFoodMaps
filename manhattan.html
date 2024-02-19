@@ -25,20 +25,23 @@
     </svg>
     <span id="map"></span>
     <script>
+        let mq = window.matchMedia("(max-width:800px)");
         mapboxgl.accessToken = "pk.eyJ1IjoidG9yaW1vcmFsZXMiLCJhIjoiY2xzbDY4eHZnMDVxYzJrbDl1MGNrNnJxdCJ9.ohnhTjUO_kMU3hnQx8C5Nw";
         const map = new mapboxgl.Map(
             {
                 container: "map",
                 style: "mapbox://styles/torimorales/clsl54ap403uo01o838cb508t",
                 center: [-73.943155, 40.784373],
-                zoom: 13.6,
+                zoom: mq.matches ? 12.8 : 13.6,
                 pitch: 0,
                 bearing: 29.6,
                 minZoom: 11.5,
+                attributionControl: false,
             }
         );
 
-
+        map.addControl(new mapboxgl.AttributionControl({ customAttribution: "Tori Morales for Washington Square News" }));
+        var selected = null;
         const linkmap = {
             "Ollin": "https://maps.app.goo.gl/fmyhm4YjvZiqJAf19",
             "El Aguila": "https://maps.app.goo.gl/TFgjCTNtw6vHnJXr9",
@@ -58,7 +61,6 @@
             const items = map.querySourceFeatures('composite', {
                 'sourceLayer': "mnlatlong-ctv55o",
             });
-
             for (const feat of items) {
                 const half = document.createElementNS("http://www.w3.org/2000/svg", "svg");
                 const useEl = document.createElementNS('http://www.w3.org/2000/svg', 'use');
@@ -91,7 +93,15 @@
                 el.appendChild(graf);
                 el.appendChild(half);
 
-                new mapboxgl.Marker(el).setLngLat([props.long, props.lat]).addTo(map);
+                var marker = new mapboxgl.Marker(el).setLngLat([props.long, props.lat]);
+                marker.addTo(map);
+
+                graf.addEventListener("click", () => {
+                    var temp = el;
+                    var markTemp = new mapboxgl.Marker(el).setLngLat([props.long, props.lat]).addTo(map);
+                    marker.remove();
+                    markTemp.addTo(map);
+                })
             }
         })
     </script>

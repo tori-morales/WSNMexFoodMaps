@@ -87,3 +87,26 @@ p {
     transform: translateX(-84%) translateY(5px);
     z-index: 1111;
 }
+@media screen and (max-width:800px) {
+    #map{
+        width: 500px;
+        height: 325px;
+    }
+
+    .label{
+        max-width: 90px;
+        transform: translateY(6px) translateX(-1px);
+    }
+
+    #left{
+        transform: translateY(6px) translateX(-81%);
+    }
+
+    .address{
+        font-size: .55rem;
+    }
+
+    .name{
+        font-size: .8rem;
+    }
+}

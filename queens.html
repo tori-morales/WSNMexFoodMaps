@@ -24,19 +24,22 @@
     </svg>
     <span id="map"></span>
     <script>
+        let mq = window.matchMedia("(max-width:800px)");
         mapboxgl.accessToken = "pk.eyJ1IjoidG9yaW1vcmFsZXMiLCJhIjoiY2xzbDY4eHZnMDVxYzJrbDl1MGNrNnJxdCJ9.ohnhTjUO_kMU3hnQx8C5Nw";
         const map = new mapboxgl.Map(
             {
                 container: "map",//40.743,-73.880
                 style: "mapbox://styles/torimorales/clsl54ap403uo01o838cb508t",
-                center: [-73.880, 40.743],
-                zoom: 12.5,
+                center: [-73.8763, 40.7475],
+                zoom: mq.matches ? 11.8 : 12.5,
                 pitch: 0,
                 bearing: 83.2,
-                minZoom: 11.5,
+                minZoom: 11,
+                attributionControl: false,
             }
         );
 
+        map.addControl(new mapboxgl.AttributionControl({ customAttribution: "Tori Morales for Washington Square News" }));
 
         const linkmap = {
             "Ollin": "https://maps.app.goo.gl/fmyhm4YjvZiqJAf19",
@@ -92,7 +95,16 @@
                 el.appendChild(graf);
                 el.appendChild(half);
 
-                new mapboxgl.Marker(el).setLngLat([props.long, props.lat]).addTo(map);
+
+                var marker = new mapboxgl.Marker(el).setLngLat([props.long, props.lat]);
+                marker.addTo(map);
+
+                graf.addEventListener("click", () => {
+                    var temp = el;
+                    var markTemp = new mapboxgl.Marker(el).setLngLat([props.long, props.lat]).addTo(map);
+                    marker.remove();
+                    markTemp.addTo(map);
+                })
             }
         })
     </script>
