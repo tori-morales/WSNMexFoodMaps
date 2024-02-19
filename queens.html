@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Best Mexican Spots: Queens</title>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Titillium+Web&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="diningmapstyle.css">
+</head>
+
+<body>
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="halfsquare" viewBox="0 0 100 100">
+            <polygon class="halfsquare" points="0 0 100 100 0 100 0 0" />
+        </symbol>
+    </svg>
+    <span id="map"></span>
+    <script>
+        mapboxgl.accessToken = "pk.eyJ1IjoidG9yaW1vcmFsZXMiLCJhIjoiY2xzbDY4eHZnMDVxYzJrbDl1MGNrNnJxdCJ9.ohnhTjUO_kMU3hnQx8C5Nw";
+        const map = new mapboxgl.Map(
+            {
+                container: "map",//40.743,-73.880
+                style: "mapbox://styles/torimorales/clsl54ap403uo01o838cb508t",
+                center: [-73.880, 40.743],
+                zoom: 13,
+                pitch: 0,
+                bearing: 83.2,
+                minZoom: 11.5,
+            }
+        );
+
+
+        const linkmap = {
+            "Ollin": "https://maps.app.goo.gl/fmyhm4YjvZiqJAf19",
+            "El Aguila": "https://maps.app.goo.gl/TFgjCTNtw6vHnJXr9",
+            "Maz Mezcal": "https://maps.app.goo.gl/fGVtxB4188GYdjC49",
+            "El Mariachi": "https://maps.app.goo.gl/gJdPBhBLm69YgYp38",
+            "Tlayuda Oaxaquena SR San Pablo": "https://maps.app.goo.gl/gCKAHCNwcyom27JF8",
+            "La Espiga": "https://maps.app.goo.gl/NpJWNLgtrkoGmmxLA",
+            "Tacos El Bronco": "https://maps.app.goo.gl/djQa69Gdw9wGgfnH9",
+            "Tacos Matamoros": "https://maps.app.goo.gl/TmiqxgRFtLnCz8RQ6",
+            "Chavela’s": "https://maps.app.goo.gl/3fDfuYrCQ6cja72FA",
+            "Taqueria Milear": "https://maps.app.goo.gl/Did4Qatjc5N3oc2X8",
+        }
+
+        //MAPBOX USES LONGITUDE, LATITUDE !!!!!!        
+        map.on('load', () => {
+            const items = map.querySourceFeatures('composite', {
+                'sourceLayer': "qnlatlong-5ln45k",
+            });
+
+            for (const feat of items) {
+                const half = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                const useEl = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+
+                useEl.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#halfsquare');
+                half.setAttribute("class", "half");
+                half.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:xlink", "http://www.w3.org/1999/xlink");
+                half.appendChild(useEl);
+                const el = document.createElement("div");
+                const props = feat.properties;
+
+                const nameEl = document.createElement("a");
+                const node = document.createTextNode(props.name);
+                nameEl.href = linkmap[props.name];
+                nameEl.target = "_blank";
+                nameEl.setAttribute("class", "name");
+                nameEl.appendChild(node);
+
+                const addressEl = document.createElement("p");
+                const node2 = document.createTextNode(props.address);
+                addressEl.setAttribute("class", "address");
+                addressEl.append(node2);
+
+                const graf = document.createElement("span");
+                if (props.name == "Tlayuda Oaxaquena SR San Pablo") {
+                    graf.setAttribute("id", "left");
+                }
+                graf.append(nameEl);
+                graf.append(addressEl);
+                graf.setAttribute("class", "label");
+
+                el.className = "marker";
+                el.appendChild(graf);
+                el.appendChild(half);
+
+                new mapboxgl.Marker(el).setLngLat([props.long, props.lat]).addTo(map);
+            }
+        })
+    </script>
+</body>
+
+</html>
